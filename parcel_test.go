@@ -54,7 +54,7 @@ func TestAddGetDelete(t *testing.T) {
 	require.NoError(t, err)
 
 	_, err = store.Get(id)
-	require.Error(t, sql.ErrNoRows, err)
+	require.Error(t, err, sql.ErrNoRows)
 }
 
 // TestSetAddress проверяет обновление адреса
@@ -152,9 +152,7 @@ func TestGetByClient(t *testing.T) {
 	for _, parcel := range storedParcels {
 		// в parcelMap лежат добавленные посылки, ключ - идентификатор посылки, значение - сама посылка
 		testParcel, ok := parcelMap[parcel.Number]
-		if ok {
-			require.Equal(t, testParcel, parcel)
-		}
-		require.Equal(t, true, ok)
+		require.True(t, ok)
+		require.Equal(t, testParcel, parcel)
 	}
 }
